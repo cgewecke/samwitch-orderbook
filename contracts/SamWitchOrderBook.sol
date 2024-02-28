@@ -15,6 +15,8 @@ import {BokkyPooBahsRedBlackTreeLibrary} from "./BokkyPooBahsRedBlackTreeLibrary
 import {IBrushToken} from "./interfaces/IBrushToken.sol";
 import {ISamWitchOrderBook} from "./interfaces/ISamWitchOrderBook.sol";
 
+import "hardhat/console.sol";
+
 /// @title SamWitchOrderBook (SWOB)
 /// @author Sam Witch (PaintSwap, Estfor Kingdom) & 0xDoubleSharp
 /// @notice This efficient ERC1155 order book is an upgradeable UUPS proxy contract. It has functions for bulk placing
@@ -966,7 +968,9 @@ contract SamWitchOrderBook is ISamWitchOrderBook, ERC1155Holder, UUPSUpgradeable
     if (_offset == 0 && segment >> 64 == 0) {
       // If only one order is in the segment, remove the segment by shifting all other segments to the left
       for (uint i = _index; i < _segments.length.sub(1); ++i) {
+        console.log("hitting line 970");
         _segments[i] = _segments[i.inc()];
+        console.log("post line 970");
       }
       _segments.pop();
       if (_segments.length == _tombstoneOffset) {
