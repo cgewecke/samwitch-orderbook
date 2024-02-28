@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - cov-patch
     tags:
       - "!*" # Do not execute on tags
     paths:
@@ -76,7 +77,7 @@ jobs:
             VAL="$1"
             COLOR=darkgreen
             if (($(echo "$VAL < 80" | bc) > 0)); then COLOR=red;
-            elif (($(echo "$VAL < 90" | bc) > 0)); then COLOR=orange; 
+            elif (($(echo "$VAL < 90" | bc) > 0)); then COLOR=orange;
             elif (($(echo "$VAL < 95" | bc) > 0)); then COLOR=yellow;
             elif (($(echo "$VAL < 98" | bc) > 0)); then COLOR=green;
             fi
@@ -94,53 +95,4 @@ jobs:
             echo "COVERAGE_${TYPE}=$(echo "${COVERAGE}%")" >> $GITHUB_ENV
             echo "COLOR_${TYPE}=$(echo "${COLOR}")" >> $GITHUB_ENV
           done
-      - name: Create Overall Coverage
-        uses: schneegans/dynamic-badges-action@v1.2.0
-        with:
-          auth: ${{ secrets.GIST_SECRET }}
-          gistID: 8264fd8eb852ea096bf7ee56a7ab695a
-          filename: samwitch-orderbook-overall.json
-          label: Coverage
-          message: ${{ env.COVERAGE_OVERALL }}
-          color: ${{ env.COLOR_OVERALL }}
-          namedLogo: nyc
-      - name: Create Statement Coverage
-        uses: schneegans/dynamic-badges-action@v1.2.0
-        with:
-          auth: ${{ secrets.GIST_SECRET }}
-          gistID: 8264fd8eb852ea096bf7ee56a7ab695a
-          filename: samwitch-orderbook-statements.json
-          label: Covered Statements
-          message: ${{ env.COVERAGE_STMTS }}
-          color: ${{ env.COLOR_STMTS }}
-          namedLogo: nyc
-      - name: Create Branches Coverage
-        uses: schneegans/dynamic-badges-action@v1.2.0
-        with:
-          auth: ${{ secrets.GIST_SECRET }}
-          gistID: 8264fd8eb852ea096bf7ee56a7ab695a
-          filename: samwitch-orderbook-branches.json
-          label: Covered Branches
-          message: ${{ env.COVERAGE_BRANCH }}
-          color: ${{ env.COLOR_BRANCH }}
-          namedLogo: nyc
-      - name: Create Functions Coverage
-        uses: schneegans/dynamic-badges-action@v1.2.0
-        with:
-          auth: ${{ secrets.GIST_SECRET }}
-          gistID: 8264fd8eb852ea096bf7ee56a7ab695a
-          filename: samwitch-orderbook-functions.json
-          label: Covered Functions
-          message: ${{ env.COVERAGE_FUNCS }}
-          color: ${{ env.COLOR_FUNCS }}
-          namedLogo: nyc
-      - name: Create Lines Coverage
-        uses: schneegans/dynamic-badges-action@v1.2.0
-        with:
-          auth: ${{ secrets.GIST_SECRET }}
-          gistID: 8264fd8eb852ea096bf7ee56a7ab695a
-          filename: samwitch-orderbook-lines.json
-          label: Covered Lines
-          message: ${{ env.COVERAGE_LINES }}
-          color: ${{ env.COLOR_LINES }}
-          namedLogo: nyc
+
